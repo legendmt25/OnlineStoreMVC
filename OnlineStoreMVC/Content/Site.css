@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+nav > div > div > ul + ul .dropdown-menu {
+    min-width: auto !important;
+}

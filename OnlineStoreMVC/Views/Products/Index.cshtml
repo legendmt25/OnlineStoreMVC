@@ -1,22 +1,16 @@
 ﻿@model IEnumerable<OnlineStoreMVC.Models.Product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Manage Products";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add New Product", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ownerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AddedOn)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
@@ -29,12 +23,6 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ownerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddedOn)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
@@ -42,7 +30,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Preview", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
