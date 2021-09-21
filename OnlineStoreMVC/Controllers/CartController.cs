@@ -31,14 +31,17 @@ namespace OnlineStoreMVC.Controllers
                              where product.Id == id
                              select product).Single());
             Session["cart"] = cartProducts;
-            return RedirectToAction("ListProducts", "Home");
+            return RedirectToAction("Index", "ListProducts");
         }
 
         public ActionResult RemoveFromCart(int id)
         {
             List<Product> cartProducts = (List<Product>)Session["cart"];
-            cartProducts.RemoveAt(id);
-            Session["cart"] = cartProducts;
+            if (cartProducts.Count > 0)
+            {
+                cartProducts.RemoveAt(id);
+                Session["cart"] = cartProducts;
+            }
             return View("Index", cartProducts);
         }
         public ActionResult ClearCart()

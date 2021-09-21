@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace OnlineStoreMVC.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public virtual IEnumerable<Product> Products {get;set;}
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -34,7 +36,5 @@ namespace OnlineStoreMVC.Models
         }
 
         public System.Data.Entity.DbSet<OnlineStoreMVC.Models.Product> Products { get; set; }
-
-        //public System.Data.Entity.DbSet<OnlineStoreMVC.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

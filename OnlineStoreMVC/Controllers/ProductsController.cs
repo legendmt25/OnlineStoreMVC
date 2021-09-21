@@ -7,7 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using OnlineStoreMVC.Models;
+
 
 namespace OnlineStoreMVC.Controllers
 {
@@ -20,9 +22,9 @@ namespace OnlineStoreMVC.Controllers
         public ActionResult Index()
         {
             string currentUserId = User.Identity.GetUserId();
-            return View((from userId in db.Products
-                         where userId.ownerId.Equals(currentUserId)
-                         select userId).ToList());
+            return View((from userProducts in db.Products
+                         where userProducts.ownerId.Equals(currentUserId)
+                         select userProducts).ToList());
         }
 
         // GET: Products/Details/5
@@ -43,6 +45,8 @@ namespace OnlineStoreMVC.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
+            //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            //return Content(UserManager.FindById(User.Identity.GetUserId()).FirstName.ToString());
             Product product = new Product();
             product.ownerId = User.Identity.GetUserId();
             product.AddedOn = DateTime.Now.ToString();

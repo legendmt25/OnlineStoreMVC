@@ -28,10 +28,5 @@ namespace OnlineStoreMVC.Controllers
 
             return View();
         }
-
-        public ActionResult ListProducts()
-        {
-            return View(db.Products.ToList());
-        }
     }
 }

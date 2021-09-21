@@ -1,0 +1,86 @@
+﻿@using OnlineStoreMVC.Models
+@model ListProductsWithFilterModel
+@{
+    ViewBag.Title = "List Products";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div>
+                @using (Html.BeginForm())
+                {
+                    <div class="btn-group">
+                        <button name="submit" type="submit" id="Date" value="Date" class="btn btn-outline-primary">Date</button>
+                        <button name="submit" type="submit" id="Orders" value="Orders" class="btn btn-outline-primary">Orders</button>
+                        <button name="submit" type="submit" id="Price" value="Price" class="btn btn-outline-primary">
+                            Price
+                            @if (ViewBag.Ascending != null)
+                            {
+                                if ((bool)ViewBag.Ascending)
+                                {
+                                    <text>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                        </svg>
+                                    </text>
+                                }
+                                else
+                                {
+                                    <text>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                                        </svg>
+                                    </text>
+                                }
+                            }
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
+                            @Html.LabelFor(m => m.filterByPrice.min, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.filterByPrice.min, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            @Html.LabelFor(m => m.filterByPrice.max, new { @class = "form-label" })
+                            @Html.TextBoxFor(m => m.filterByPrice.max, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <input type="submit" value="Filter" class="btn btn-outline-primary" />
+
+                }
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row row-cols-md-3 g-2">
+                @foreach (var item in Model.products)
+                {
+                    double res = item.Price * (1 - (double)item.Discount / 100);
+                    <div class="col">
+                        <div class="card">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">
+                                    @if (item.Discount != 0)
+                                    {
+                                        <text>@res</text>
+                                        <text>(</text>@item.Discount<text>% off)</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@res</text>
+                                    }
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                @Html.ActionLink("Add To Cart", "AddToCart", "Cart", new { id = item.Id }, new { @class = "btn btn-primary" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
