@@ -15,28 +15,35 @@ namespace OnlineStoreMVC.Controllers
         {
             if (Session["cart"] == null)
             {
-                Session["cart"] = new List<Product>();
+                Session["cart"] = new List<ProductCartModel>();
             }
-            List<Product> cartProducts = (List<Product>)Session["cart"];
+            List<ProductCartModel> cartProducts = (List<ProductCartModel>)Session["cart"];
             return View(cartProducts);
         }
+
         public ActionResult AddToCart(int id)
         {
             if (Session["cart"] == null)
-            {
-                Session["cart"] = new List<Product>();
-            }
-            List<Product> cartProducts = (List<Product>)Session["cart"];
-            cartProducts.Add((from product in db.Products
-                             where product.Id == id
-                             select product).Single());
+                Session["cart"] = new List<ProductCartModel>();
+            Product productToAdd = db.Products.Where(product => product.Id == id).Single();
+            List<ProductCartModel> cartProducts = (List<ProductCartModel>)Session["cart"];
+            if (!cartProducts.Where(product => productToAdd.Id == product.Product.Id).Any())
+                cartProducts.Add(new ProductCartModel { Product = productToAdd, Quantity = 0 });
             Session["cart"] = cartProducts;
-            return RedirectToAction("Index", "ListProducts");
+            return Content("");
+            //return RedirectToAction("Index", "ListProducts");
+        }
+
+        public ActionResult UpdateQuantity(int id, int quantity)
+        {
+            List<ProductCartModel> cartProducts = (List<ProductCartModel>)Session["cart"];
+            cartProducts.ElementAt(id).Quantity = quantity;
+            return Content("");
         }
 
         public ActionResult RemoveFromCart(int id)
         {
-            List<Product> cartProducts = (List<Product>)Session["cart"];
+            List<ProductCartModel> cartProducts = (List<ProductCartModel>)Session["cart"];
             if (cartProducts.Count > 0)
             {
                 cartProducts.RemoveAt(id);

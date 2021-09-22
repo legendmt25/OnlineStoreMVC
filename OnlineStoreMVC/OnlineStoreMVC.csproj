@@ -60,12 +60,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -172,6 +181,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ListProductsController.cs" />
@@ -193,14 +203,25 @@
     <Compile Include="Migrations\202109191048546_ProductChanged.Designer.cs">
       <DependentUpon>202109191048546_ProductChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109211333084_ProductModelUpdate2.cs" />
+    <Compile Include="Migrations\202109211333084_ProductModelUpdate2.Designer.cs">
+      <DependentUpon>202109211333084_ProductModelUpdate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109211459422_ProductModelUpdate3.cs" />
+    <Compile Include="Migrations\202109211459422_ProductModelUpdate3.Designer.cs">
+      <DependentUpon>202109211459422_ProductModelUpdate3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ProductCartModel.cs" />
+    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\OrderModels.cs" />
     <Compile Include="Models\FilterModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListProductsWithFilterModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="ViewModels\ProductImageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -348,11 +369,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\ListOwnedProducts.cshtml" />
-    <Content Include="Views\Products\Create.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
-    <Content Include="Views\Products\Details.cshtml" />
-    <Content Include="Views\Products\Edit.cshtml" />
-    <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Home\ListProducts.cshtml" />
     <Content Include="Scripts\bootstrap.min.js.map" />
@@ -364,10 +380,14 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Views\ListProducts\Index.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Filter\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -381,6 +401,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109191048546_ProductChanged.resx">
       <DependentUpon>202109191048546_ProductChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109211333084_ProductModelUpdate2.resx">
+      <DependentUpon>202109211333084_ProductModelUpdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109211459422_ProductModelUpdate3.resx">
+      <DependentUpon>202109211459422_ProductModelUpdate3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

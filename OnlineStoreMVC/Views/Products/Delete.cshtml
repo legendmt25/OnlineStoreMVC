@@ -43,6 +43,22 @@
             @Html.DisplayFor(model => model.Discount)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.OrdersNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrdersNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {
@@ -50,7 +66,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index", "Products")
+            @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>

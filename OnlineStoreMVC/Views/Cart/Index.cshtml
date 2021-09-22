@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineStoreMVC.Models.Product>
+﻿@model IEnumerable<OnlineStoreMVC.Models.ProductCartModel>
 
 @{
     ViewBag.Title = "Cart";
@@ -9,10 +9,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Product.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Discount)
+            @Html.DisplayNameFor(model => model.Product.Discount)
         </th>
         <th></th>
     </tr>
@@ -23,10 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Product.Price)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Discount)
+            @Html.DisplayFor(modelItem => item.Product.Discount)
+        </td>
+        <td>
+            <input type="number" min="1" max="@Int32.MaxValue" data-productcart-id="@i" value="@item.Quantity"/>
         </td>
         <td>
             @Html.ActionLink("Remove", "RemoveFromCart", "Cart", new { id = i }, null)
@@ -34,5 +37,18 @@
     </tr>
     ++i;
 }
-
 </table>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("input").change(function () {
+                var currentInput = $(this);
+                $.ajax({
+                    url: "/Cart/UpdateQuantity?id=" + currentInput.attr("data-productcart-id") + "&quantity=" + currentInput.val(),
+                    method: "GET"
+                });
+            });
+        });
+    </script>
+}

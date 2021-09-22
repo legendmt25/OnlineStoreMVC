@@ -4,19 +4,19 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Details</h2>
 
 <div>
     <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.OrdersNumber)
+            @Html.DisplayNameFor(model => model.ownerId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OrdersNumber)
-        </dd
+            @Html.DisplayFor(model => model.ownerId)
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.AddedOn)
@@ -42,9 +42,25 @@
             @Html.DisplayFor(model => model.Discount)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.OrdersNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrdersNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index", "Products")
+    @Html.ActionLink("Back to List", "Index")
 </p>

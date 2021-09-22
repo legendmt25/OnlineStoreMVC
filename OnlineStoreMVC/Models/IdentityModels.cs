@@ -36,5 +36,6 @@ namespace OnlineStoreMVC.Models
         }
 
         public System.Data.Entity.DbSet<OnlineStoreMVC.Models.Product> Products { get; set; }
+        public System.Data.Entity.DbSet<OnlineStoreMVC.Models.ImageModel> Images { get; set; }
     }
 }

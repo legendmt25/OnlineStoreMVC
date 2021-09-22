@@ -22,9 +22,19 @@ namespace OnlineStoreMVC.Models
         public int Discount { get; set; }
         [Required]
         public int OrdersNumber { get; set; }
-        //public virtual ICollection<Image> Images{ get; set; }
-        //[Required]
-        //public string Title { get; set; }
-        //[Required]
+        public virtual ICollection <ImageModel> Images{ get; set; }
+        [Required]
+        public string Title { get; set; }
+
+        public Product() { }
+
+        public Product(string ownerId, double price, int discount, string title)
+        {
+            AddedOn = DateTime.Now.ToString();
+            OrdersNumber = 0;
+            Price = price;
+            Discount = discount;
+            Title = title;
+        }
     }
 }

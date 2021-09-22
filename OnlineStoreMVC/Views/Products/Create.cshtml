@@ -1,13 +1,12 @@
-﻿@model OnlineStoreMVC.Models.Product
+﻿@model OnlineStoreMVC.Models.ProductImageViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Add New Product";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
-
-@using (Html.BeginForm("Create", "Products", FormMethod.Post)) 
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
@@ -15,17 +14,6 @@
         <h4>Product</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.HiddenFor(model => model.ownerId, htmlAttributes: new { @class = "control-label col-md-2" })
-        </div>
-
-        <div class="form-group">
-            @Html.HiddenFor(model => model.AddedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-        </div>
-        <div class="form-group">
-            @Html.HiddenFor(model => model.OrdersNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,6 +31,22 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImgSources, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImgSources, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImgSources, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -51,9 +55,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "Products")
+    @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

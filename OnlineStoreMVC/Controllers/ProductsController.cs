@@ -7,24 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using OnlineStoreMVC.Models;
-
 
 namespace OnlineStoreMVC.Controllers
 {
-    [Authorize]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Products
         public ActionResult Index()
         {
             string currentUserId = User.Identity.GetUserId();
-            return View((from userProducts in db.Products
-                         where userProducts.ownerId.Equals(currentUserId)
-                         select userProducts).ToList());
+            return View(db.Products.Where(s => s.ownerId == currentUserId).ToList());
         }
 
         // GET: Products/Details/5
@@ -45,11 +39,7 @@ namespace OnlineStoreMVC.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            //ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //return Content(UserManager.FindById(User.Identity.GetUserId()).FirstName.ToString());
-            Product product = new Product();
-            product.ownerId = User.Identity.GetUserId();
-            product.AddedOn = DateTime.Now.ToString();
+            ProductImageViewModel product = new ProductImageViewModel();
             return View(product);
         }
 
@@ -58,12 +48,34 @@ namespace OnlineStoreMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ownerId,AddedOn,Price,Discount")] Product product)
+        public ActionResult Create(ProductImageViewModel product)
         {
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
-                db.SaveChanges();
+                try
+                {
+                    string currentUserId = User.Identity.GetUserId().ToString();
+                    Product newProduct = new Product(User.Identity.GetUserId().ToString(), product.Price, product.Discount, product.Title);
+                    db.Products.Add(newProduct);
+                    db.SaveChanges();
+                    string[] imgSources = product.ImgSources.Split('\n');
+                    foreach (var imgSrc in imgSources)
+                        if(!imgSrc.Equals(""))
+                            db.Images.Add(new ImageModel { ImageSrc = imgSrc, Product = newProduct });
+                    db.SaveChanges();
+                }
+                catch(System.Data.Entity.Validation.DbEntityValidationException e)
+                {
+                    string s = "";
+                    foreach(var exe in e.EntityValidationErrors)
+                    {
+                        foreach(var ex in exe.ValidationErrors)
+                        {
+                            s += ex.PropertyName + " " + ex.ErrorMessage;
+                        }
+                    }
+                        return Content(s);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -90,7 +102,7 @@ namespace OnlineStoreMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ownerId,AddedOn,Price,Discount")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,ownerId,AddedOn,Price,Discount,OrdersNumber,Title")] Product product)
         {
             if (ModelState.IsValid)
             {

@@ -14,11 +14,19 @@ namespace OnlineStoreMVC.Controllers
         {
             ListProductsWithFilterModel model = new ListProductsWithFilterModel();
             model.products = db.Products.ToList();
+            model.filterByPrice = new FilterPrice();
+            ViewBag.maxPrice = (int)db.Products.Max(product => product.Price * (1 - (double)product.Discount / 100)) + 1;
+            model.filterByPrice.max = (int)ViewBag.maxPrice;
             return View(model);
         }
         [HttpPost]
         public ActionResult Index(ListProductsWithFilterModel model)
         {
+            ViewBag.maxPrice = (int)db.Products.Max(product => product.Price * (1 - (double)product.Discount / 100)) + 1;
+            if (model.filterByPrice.max == null)
+            {
+                model.filterByPrice.max = (int)ViewBag.maxPrice;
+            }
             model.products = model.filterByPrice.filter(db.Products);
             if(model.submit != null)
             {
